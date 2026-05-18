@@ -1,0 +1,35 @@
+defaults:
+  - /base
+
+data:
+  name: jamendo
+  loader: jamendo
+  root: ${oc.env:JAMENDO_ROOT,${paths.data_dir}/raw/jamendo}
+  cache_dir: ${paths.cache_dir}/jamendo
+  language: en
+  splits:
+    method: predefined          # uses official splits when available
+    train_ratio: 0.8
+    val_ratio: 0.1
+    test_ratio: 0.1
+  segmentation:
+    enabled: true
+    granularity: line
+    max_duration_s: 25.0
+    min_duration_s: 1.0
+  preprocessing:
+    target_sr: 16000
+    normalize: rms
+    trim_silence: false
+  augmentation:
+    enabled: true
+    p_apply: 0.5
+    pitch_shift_semitones: [-2.0, 2.0]
+    time_stretch_factor: [0.9, 1.1]
+    add_noise_snr_db: [5, 25]
+    spec_augment:
+      enabled: true
+      time_mask_param: 40
+      freq_mask_param: 20
+      n_time_masks: 2
+      n_freq_masks: 2

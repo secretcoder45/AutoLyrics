@@ -1,0 +1,25 @@
+defaults:
+  - /base
+
+inference:
+  batch_size: 1
+  chunk_length_s: 30.0          # Whisper trained on 30 s windows
+  stride_length_s: 5.0          # overlap for long-form streaming
+  return_timestamps: false
+  return_segments: false
+  return_word_offsets: false    # heavy; off by default
+  num_beams: 5
+  temperature: 0.0
+  no_repeat_ngram_size: 3
+  length_penalty: 1.0
+  task: transcribe
+  language: en
+  normalize_output: true        # apply EnglishNumberNormalizer
+  remove_punctuation: false
+  lowercase: false
+  torch_dtype: float16
+
+postprocessing:
+  collapse_repetitions: true
+  strip_filler_tokens: true
+  filler_tokens: ["uh", "um", "ah"]

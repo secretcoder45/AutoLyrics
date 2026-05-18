@@ -1,0 +1,43 @@
+defaults:
+  - /base
+
+data:
+  name: dali
+  loader: dali
+  root: ${oc.env:DALI_ROOT,${paths.data_dir}/raw/dali}
+  cache_dir: ${paths.cache_dir}/dali
+  language: en
+  # DALI is large; for the constrained subset required by the spec we sample
+  # English songs whose audio is available locally.
+  filters:
+    languages: [english]
+    require_audio: true
+    min_alignment_score: 0.7    # DALI ships GT confidence; filter weakly aligned songs
+  splits:
+    method: random              # random | by_artist | by_genre
+    train_ratio: 0.8
+    val_ratio: 0.1
+    test_ratio: 0.1
+  segmentation:
+    enabled: true
+    # DALI is annotated per line; use line-level windows.
+    granularity: line           # line | paragraph | fixed
+    max_duration_s: 25.0
+    min_duration_s: 1.5
+    pad_silence_s: 0.1
+  preprocessing:
+    target_sr: 16000
+    normalize: rms
+    trim_silence: false         # already line-aligned
+  augmentation:
+    enabled: true
+    p_apply: 0.5
+    pitch_shift_semitones: [-2.0, 2.0]
+    time_stretch_factor: [0.9, 1.1]
+    add_noise_snr_db: [5, 25]
+    spec_augment:
+      enabled: true
+      time_mask_param: 40
+      freq_mask_param: 20
+      n_time_masks: 2
+      n_freq_masks: 2

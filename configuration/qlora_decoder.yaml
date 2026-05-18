@@ -1,0 +1,67 @@
+defaults:
+  - /base
+
+training:
+  strategy: qlora
+  output_dir: ${paths.output_dir}/qlora_decoder
+  num_train_epochs: 8
+  max_steps: -1
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 1.0e-4
+  weight_decay: 0.0
+  warmup_ratio: 0.05
+  lr_scheduler_type: cosine
+  max_grad_norm: 1.0
+  bf16: true                    # compute dtype while weights stay 4-bit
+  fp16: false
+  optim: paged_adamw_8bit       # memory-efficient optim for QLoRA
+  dataloader_num_workers: 2
+  dataloader_pin_memory: true
+  group_by_length: true
+  length_column_name: input_length
+  predict_with_generate: true
+  generation_max_length: 225
+  generation_num_beams: 1
+  evaluation_strategy: steps
+  eval_steps: 200
+  save_strategy: steps
+  save_steps: 200
+  save_total_limit: 3
+  logging_steps: 25
+  load_best_model_at_end: true
+  metric_for_best_model: wer
+  greater_is_better: false
+  early_stopping:
+    enabled: true
+    patience: 4
+    threshold: 0.001
+  report_to: [mlflow, tensorboard]
+  remove_unused_columns: false
+  label_names: [labels]
+  resume_from_checkpoint: null
+  gradient_checkpointing: true
+
+lora:
+  r: 32
+  alpha: 64
+  dropout: 0.05
+  bias: none
+  target_modules:
+    - q_proj
+    - v_proj
+    - k_proj
+    - out_proj
+  modules_to_save: []
+  task_type: SEQ_2_SEQ_LM
+  apply_to_encoder: false
+  apply_to_decoder: true
+
+# Force quantization on for this preset (overrides model config default)
+quantization:
+  enabled: true
+  bits: 4
+  bnb_4bit_compute_dtype: bfloat16
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true

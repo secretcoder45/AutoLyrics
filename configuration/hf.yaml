@@ -1,0 +1,39 @@
+defaults:
+  - /base
+
+data:
+  name: hf
+  loader: hf
+  # Example: search the Hub for tags "singing", "acapella", "lyrics".
+  # Override at CLI: --override data.hf.dataset_id=<id>
+  hf:
+    dataset_id: jdmoon/SingingDataset    # placeholder; override per run
+    config_name: null
+    streaming: false
+    audio_column: audio
+    text_column: text
+    split_train: train
+    split_val: validation
+    split_test: test
+  cache_dir: ${paths.cache_dir}/hf
+  language: en
+  segmentation:
+    enabled: true
+    max_duration_s: 30.0
+    min_duration_s: 1.0
+  preprocessing:
+    target_sr: 16000
+    normalize: rms
+    trim_silence: false
+  augmentation:
+    enabled: true
+    p_apply: 0.5
+    pitch_shift_semitones: [-2.0, 2.0]
+    time_stretch_factor: [0.9, 1.1]
+    add_noise_snr_db: [5, 25]
+    spec_augment:
+      enabled: true
+      time_mask_param: 40
+      freq_mask_param: 20
+      n_time_masks: 2
+      n_freq_masks: 2

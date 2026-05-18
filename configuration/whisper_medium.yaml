@@ -1,0 +1,25 @@
+defaults:
+  - /base
+
+model:
+  type: whisper
+  hf_name: openai/whisper-medium
+  task: transcribe
+  language: en
+  attn_implementation: sdpa
+  use_cache: false
+  freeze_feature_encoder: false
+  generation:
+    max_new_tokens: 225
+    num_beams: 5
+    no_repeat_ngram_size: 3
+    length_penalty: 1.0
+    temperature: 0.0
+    suppress_blank: true
+
+quantization:
+  enabled: false                # Turn on with the qlora_decoder.yaml training preset
+  bits: 4
+  bnb_4bit_compute_dtype: bfloat16
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true

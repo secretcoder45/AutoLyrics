@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install ruff mypy
+      - name: Ruff lint
+        run: ruff check core/ data_pipeline/ models/ training/ evaluation/ interference/ api/ ui/ scripts/
+      - name: Ruff format check
+        run: ruff format --check core/ data_pipeline/ models/ training/ evaluation/ interference/ api/ ui/ scripts/
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install system deps
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg libsndfile1
+      - name: Install Python deps
+        run: |
+          pip install --upgrade pip
+          pip install -r root_configuration/requirements.txt
+          pip install -r root_configuration/requirements-dev.txt
+      - name: Run unit tests
+        run: python -m pytest tests/unit -v -m "not slow and not gpu" --tb=short

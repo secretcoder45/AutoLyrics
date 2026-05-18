@@ -1,0 +1,26 @@
+defaults:
+  - /base
+
+model:
+  type: whisper
+  hf_name: openai/whisper-small
+  task: transcribe
+  language: en
+  # Use SDPA for memory-efficient attention; will fall back if unsupported
+  attn_implementation: sdpa
+  use_cache: false             # disable during training; auto-enabled for inference
+  freeze_feature_encoder: false
+  generation:
+    max_new_tokens: 225
+    num_beams: 5
+    no_repeat_ngram_size: 3
+    length_penalty: 1.0
+    temperature: 0.0
+    suppress_blank: true
+
+quantization:
+  enabled: false
+  bits: 4                       # 4 | 8
+  bnb_4bit_compute_dtype: bfloat16
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true

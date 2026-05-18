@@ -1,0 +1,44 @@
+# =============================================================
+#  AutoLyrics — Base configuration
+#  Other configs (data/model/training/inference) compose with this.
+# =============================================================
+
+project:
+  name: autolyrics
+  version: 0.1.0
+  seed: 42
+  deterministic: false
+  run_name: ${oc.env:AUTOLYRICS_RUN_NAME,default}
+
+paths:
+  data_dir: ${oc.env:AUTOLYRICS_DATA_DIR,./data}
+  cache_dir: ${oc.env:AUTOLYRICS_CACHE_DIR,./.cache/autolyrics}
+  output_dir: ${oc.env:AUTOLYRICS_OUTPUT_DIR,./runs}
+  reports_dir: ./reports
+  manifests_dir: ${paths.data_dir}/manifests
+  checkpoints_dir: ${paths.output_dir}/checkpoints
+
+device:
+  # auto | cpu | cuda | mps
+  type: ${oc.env:AUTOLYRICS_DEVICE,auto}
+  # precision: fp32 | fp16 | bf16
+  precision: bf16
+
+logging:
+  level: ${oc.env:AUTOLYRICS_LOG_LEVEL,INFO}
+  use_rich: true
+  log_file: null
+
+tracking:
+  backend: mlflow              # mlflow | wandb | none
+  experiment_name: ${oc.env:MLFLOW_EXPERIMENT_NAME,autolyrics}
+  tracking_uri: ${oc.env:MLFLOW_TRACKING_URI,file:./mlruns}
+  log_artifacts: true
+
+audio:
+  sampling_rate: 16000
+  max_duration_s: 30.0
+  min_duration_s: 0.5
+  channels: 1                  # Mono
+  feature_type: log_mel        # log_mel | raw
+  n_mels: 80

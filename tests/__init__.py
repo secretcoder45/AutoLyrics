@@ -1,0 +1,1 @@
+"""AutoLyrics — Test suite."""

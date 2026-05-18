@@ -1,0 +1,105 @@
+# =============================================================
+#  AutoLyrics — .gitignore
+# =============================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.cover
+.hypothesis/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Environment & Secrets (never commit real .env) ---
+.env
+.env.local
+.env.*.local
+*.env.production
+*.env.staging
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Data (large files, raw downloads) ---
+data/raw/
+data/processed/
+data/interim/
+data/cache/
+.cache/
+*.tar
+*.tar.gz
+*.zip
+
+# --- Model weights & checkpoints ---
+*.bin
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.gguf
+adapter_model.bin
+adapter_config.json        # keep if committed intentionally — remove this line if so
+
+# --- Training outputs ---
+runs/
+mlruns/
+wandb/
+lightning_logs/
+checkpoints/
+outputs/
+logs/
+*.log
+
+# --- HuggingFace cache ---
+.cache/huggingface/
+~/.cache/huggingface/      # just documentation, git won't match this path anyway
+
+# --- Reports (commit final PDF, ignore intermediate JSON) ---
+reports/intermediate/
+reports/*.json
+# To commit the final PDF, explicitly allow it:
+!reports/performance_report.pdf
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb
+
+# --- Docker ---
+.dockerignore.bak
+
+# --- OS ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =============================================================
+#  Always allow these even if a parent rule would exclude them
+# =============================================================
+!.gitkeep
+!.env.example
+!requirements*.txt

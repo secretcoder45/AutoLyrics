@@ -1,0 +1,37 @@
+defaults:
+  - /base
+
+data:
+  name: nus48e
+  loader: nus48e
+  root: ${paths.data_dir}/raw/nus48e
+  cache_dir: ${paths.cache_dir}/nus48e
+  language: en
+  splits:
+    # Reserve a few singers for test; spec calls for a "highly curated, constrained" subset.
+    train_singers: [ADIZ, JLEE, JTAN, KENN, MCUR, MPOL, MPUR, NJAT, PMAR, SAMF, VKOW]
+    val_singers: [ZHIY]
+    test_singers: [YKWON]
+  modes: [sing]                 # sing | read | both
+  segmentation:
+    enabled: true
+    max_duration_s: 30.0
+    min_duration_s: 1.0
+    pad_silence_s: 0.1
+  preprocessing:
+    target_sr: 16000
+    normalize: peak             # peak | rms | none
+    trim_silence: true
+    trim_top_db: 25
+  augmentation:
+    enabled: true
+    p_apply: 0.5
+    pitch_shift_semitones: [-2.0, 2.0]
+    time_stretch_factor: [0.9, 1.1]
+    add_noise_snr_db: [10, 30]
+    spec_augment:
+      enabled: true
+      time_mask_param: 40
+      freq_mask_param: 20
+      n_time_masks: 2
+      n_freq_masks: 2
