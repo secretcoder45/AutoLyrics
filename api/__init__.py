@@ -1,1 +1,0 @@
-"""AutoLyrics — API package."""
