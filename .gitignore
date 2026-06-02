@@ -48,10 +48,20 @@ data/raw/
 data/processed/
 data/interim/
 data/cache/
+data/mock_singing/test/
+data/mock_singing/train/*.wav
+data/mock_singing/train/*.mp3
+data/mock_singing/val/
 .cache/
 *.tar
 *.tar.gz
 *.zip
+*.wav
+*.mp3
+
+# --- Unrelated files ---
+*.pdf
+!reports/performance_report.pdf
 
 # --- Model weights & checkpoints ---
 *.bin
@@ -82,8 +92,6 @@ logs/
 # --- Reports (commit final PDF, ignore intermediate JSON) ---
 reports/intermediate/
 reports/*.json
-# To commit the final PDF, explicitly allow it:
-!reports/performance_report.pdf
 
 # --- Jupyter ---
 .ipynb_checkpoints/
